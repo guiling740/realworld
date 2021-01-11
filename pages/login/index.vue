@@ -6,16 +6,12 @@
           <h1 class="text-xs-center">{{ isLogin ? "Sign in" : "Sign up" }}</h1>
           <p class="text-xs-center">
             导入剩余页面
-            <nuxt-link v-if="isLogin" to="/register"
-              >Need an account?</nuxt-link
-            >
+            <nuxt-link v-if="isLogin" to="/register">Need an account?</nuxt-link>
             <nuxt-link v-else to="/login">Have an account?</nuxt-link>
           </p>
           <ul class="error-messages">
             <template v-for="(messages, field) in errors">
-              <li v-for="(message, index) in messages" :key="index">
-                {{ field }} {{ message }}
-              </li>
+              <li v-for="(message, index) in messages" :key="index">{{ field }} {{ message }}</li>
             </template>
             <li>That email is invalid.</li>
           </ul>
@@ -47,9 +43,9 @@
                 required
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
-              {{ isLogin ? "Sign in" : "Sign up" }}
-            </button>
+            <button
+              class="btn btn-lg btn-primary pull-xs-right"
+            >{{ isLogin ? "Sign in" : "Sign up" }}</button>
           </form>
         </div>
       </div>
@@ -58,10 +54,11 @@
 </template>
 <script>
 import { login, register } from "@/api/user";
+const Cookie = process.client ? require('js-cookie') : undefined
 export default {
   name: "LoginIndex",
-  asyncData() {},
-  data() {
+  asyncData () { },
+  data () {
     return {
       user: {
         username: "",
@@ -74,23 +71,25 @@ export default {
     };
   },
   computed: {
-    isLogin() {
+    isLogin () {
       return this.$route.path === "/login";
     },
   },
   methods: {
-    async onSubmit() {
+    async onSubmit () {
       try {
         // 登录注册
         const { data } = this.isLogin
           ? await login({
-              user: this.user,
-            })
+            user: this.user,
+          })
           : await register({
-              user: this.user,
-            });
+            user: this.user,
+          });
         // 保存用户的登录状态
         this.$store.commit("setUser", data.user);
+        // 为了防止刷新页面数据丢失，需要把数据持久化 cookie是前后端都可以访问到
+        Cookie.set('user', data.user)
         // 跳转到首页
         this.$router.push("/");
       } catch (err) {
