@@ -21,16 +21,12 @@
             </li>
             <li class="nav-item">
               <nuxt-link class="nav-link" to="/profile/lpz">
-                <img
-                  class="user-pic"
-                  src="http://toutiao.meiduo.site/FtNcS8sKFSYQbtBbd40eFTL6lAs_"
-                  ngsrc="http://toutiao.meiduo.site/FtNcS8sKFSYQbtBbd40eFTL6lAs_"
-                />
-                LPZ
+                <img class="user-pic" :src="user.image" />
+                {{ user.username }}
               </nuxt-link>
             </li>
           </template>
-          <template>
+          <template v-else>
             <li class="nav-item">
               <nuxt-link class="nav-link" to="/login">Sign in</nuxt-link>
             </li>

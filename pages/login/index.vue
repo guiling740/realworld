@@ -5,7 +5,6 @@
         <div class="col-md-6 offset-md-3 col-xs-12">
           <h1 class="text-xs-center">{{ isLogin ? "Sign in" : "Sign up" }}</h1>
           <p class="text-xs-center">
-            导入剩余页面
             <nuxt-link v-if="isLogin" to="/register">Need an account?</nuxt-link>
             <nuxt-link v-else to="/login">Have an account?</nuxt-link>
           </p>
@@ -56,6 +55,7 @@
 import { login, register } from "@/api/user";
 const Cookie = process.client ? require('js-cookie') : undefined
 export default {
+  middleware: 'notAuthenticated',
   name: "LoginIndex",
   asyncData () { },
   data () {

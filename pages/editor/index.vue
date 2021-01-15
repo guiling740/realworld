@@ -6,18 +6,10 @@
           <form>
             <fieldset>
               <fieldset class="form-group">
-                <input
-                  type="text"
-                  class="form-control form-control-lg"
-                  placeholder="Article Title"
-                />
+                <input type="text" class="form-control form-control-lg" placeholder="Article Title" />
               </fieldset>
               <fieldset class="form-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="What's this article about?"
-                />
+                <input type="text" class="form-control" placeholder="What's this article about?" />
               </fieldset>
               <fieldset class="form-group">
                 <textarea
@@ -27,19 +19,10 @@
                 ></textarea>
               </fieldset>
               <fieldset class="form-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter tags"
-                />
+                <input type="text" class="form-control" placeholder="Enter tags" />
                 <div class="tag-list"></div>
               </fieldset>
-              <button
-                class="btn btn-lg pull-xs-right btn-primary"
-                type="button"
-              >
-                Publish Article
-              </button>
+              <button class="btn btn-lg pull-xs-right btn-primary" type="button">Publish Article</button>
             </fieldset>
           </form>
         </div>
@@ -50,6 +33,8 @@
 
 <script>
 export default {
+  // 在路由匹配组件渲染之前会先执行中间件处理
+  middleware: 'authenticated',
   name: "Editor",
 };
 </script>
