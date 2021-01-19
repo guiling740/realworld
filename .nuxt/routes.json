@@ -6,38 +6,46 @@
       {
         "path": "",
         "name": "home",
-        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld\\\\pages\\\\home"
+        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld\\\\pages\\\\home",
+        "_name": "_4d895f8e"
       },
       {
         "path": "/login",
         "name": "login",
-        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld\\\\pages\\\\login"
+        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld\\\\pages\\\\login",
+        "_name": "_4e66ff4f"
       },
       {
         "path": "/register",
         "name": "register",
-        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld\\\\pages\\\\login"
+        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld\\\\pages\\\\login",
+        "_name": "_4e66ff4f"
       },
       {
         "path": "/profile/:username",
         "name": "profile",
-        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld\\\\pages\\\\profile"
+        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld\\\\pages\\\\profile",
+        "_name": "_29cb380f"
       },
       {
         "path": "/settings",
         "name": "settings",
-        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld\\\\pages\\\\settings"
+        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld\\\\pages\\\\settings",
+        "_name": "_be484b06"
       },
       {
         "path": "/editor",
         "name": "editor",
-        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld\\\\pages\\\\editor"
+        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld\\\\pages\\\\editor",
+        "_name": "_71ed0e47"
       },
       {
         "path": "/article/:slug",
         "name": "article",
-        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld\\\\pages\\\\article"
+        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld\\\\pages\\\\article",
+        "_name": "_10957b5c"
       }
-    ]
+    ],
+    "_name": "_7dbbe804"
   }
 ]
