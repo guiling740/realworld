@@ -10,6 +10,10 @@ export const state = () => {
 export const mutations = {
     setUser (state, data) {
         state.user = data
+    },
+    /**登出清空用户信息 */
+    clearUser (state) {
+        state.user = null
     }
 }
 export const actions = {
@@ -18,7 +22,6 @@ export const actions = {
     // 作用：初始化容器数据，传递数据给客户端使用
     /**commit 是提交mutation的对象  req是服务端请求对象 */
     nuxtServerInit ({ commit }, { req }) {
-        console.log('nuxtServerInit')
         let user = null
         // 如果请求头部有Cookie, 将cookie字符串转换为Javascript对象
         if (req.headers.cookie) {

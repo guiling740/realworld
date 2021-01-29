@@ -4,12 +4,9 @@
       <div class="container">
         <div class="row">
           <div class="col-xs-12 col-md-10 offset-md-1">
-            <img src="http://i.imgur.com/Qr71crq.jpg" class="user-img" />
-            <h4>Eric Simons</h4>
-            <p>
-              Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda
-              looks like Peeta from the Hunger Games
-            </p>
+            <img :src="profile.image" class="user-img" />
+            <h4>{{profile.username}}</h4>
+            <p>{{profile.bio}}</p>
             <button class="btn btn-sm btn-outline-secondary action-btn">
               <i class="ion-plus-round"></i>
               &nbsp; Follow Eric Simons
@@ -31,63 +28,119 @@
               </li>
             </ul>
           </div>
-
-          <div class="article-preview">
+          <!-- 文章列表 -->
+          <div class="article-preview" v-for="article in articles" :key="article.slug">
             <div class="article-meta">
-              <a href>
-                <img src="http://i.imgur.com/Qr71crq.jpg" />
-              </a>
+              <nuxt-link
+                :to="{
+                name: 'profile',
+                params: {
+                  username: article.author.username
+                }
+              }"
+              >
+                <img :src="article.author.image" />
+              </nuxt-link>
               <div class="info">
-                <a href class="author">Eric Simons</a>
-                <span class="date">January 20th</span>
+                <nuxt-link
+                  class="author"
+                  :to="{
+                    name: 'profile',
+                    params: {
+                      username: article.author.username
+                    }
+                  }"
+                >{{article.author.username}}</nuxt-link>
+                <span class="date">{{ article.createdAt | date('MMM DD, YYYY') }}</span>
               </div>
-              <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                <i class="ion-heart"></i> 29
+              <button
+                class="btn btn-outline-primary btn-sm pull-xs-right"
+                :class="{
+                  active: article.favorited
+                }"
+                :disabled="article.favoriteDisabled"
+              >
+                <i class="ion-heart"></i>
+                {{ article.favoritesCount }}
               </button>
             </div>
-            <a href class="preview-link">
-              <h1>How to build webapps that scale</h1>
-              <p>This is the description for the post.</p>
+            <nuxt-link
+              class="preview-link"
+              :to="{
+              name: 'article',
+              params: {
+                slug: article.slug
+              }
+            }"
+            >
+              <h1>{{ article.title }}</h1>
+              <p>{{ article.description }}</p>
               <span>Read more...</span>
-            </a>
+            </nuxt-link>
           </div>
-
-          <div class="article-preview">
-            <div class="article-meta">
-              <a href>
-                <img src="http://i.imgur.com/N4VcUeJ.jpg" />
-              </a>
-              <div class="info">
-                <a href class="author">Albert Pai</a>
-                <span class="date">January 20th</span>
-              </div>
-              <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                <i class="ion-heart"></i> 32
-              </button>
-            </div>
-            <a href class="preview-link">
-              <h1>
-                The song you won't ever stop singing. No matter how hard you
-                try.
-              </h1>
-              <p>This is the description for the post.</p>
-              <span>Read more...</span>
-              <ul class="tag-list">
-                <li class="tag-default tag-pill tag-outline">Music</li>
-                <li class="tag-default tag-pill tag-outline">Song</li>
-              </ul>
-            </a>
-          </div>
+          <!-- 分页列表 -->
+          <nav>
+            <ul class="pagination">
+              <li
+                class="page-item"
+                v-for="item in totalPage"
+                :key="item"
+                :class="{
+                active: item === page
+              }"
+              >
+                <nuxt-link
+                  class="page-link"
+                  :to="{
+                  name: 'profile',
+                  query: {
+                    page: item,
+                  }
+                }"
+                >{{item}}</nuxt-link>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
+import { getProfile, followUser, unFollowUser } from '@/api/profile'
+import { getArticles } from '@/api/article'
+
 export default {
   middleware: 'authenticated',
   name: "Profile",
+  async asyncData ({
+    query, store
+  }) {
+    // 获取作者信息
+    let { username } = query
+    !username && (username = store.state.user.username)
+    const { data: { profile } } = await getProfile(username)
+
+    const limit = 20
+    const page = Number.parseInt(query.page || 1)
+    const { data: { articles, articlesCount } } = await getArticles({
+      limit,
+      offset: (page - 1) * limit,
+      author: username
+    })
+    return {
+      profile,
+      articles,
+      articlesCount,
+      limit,
+      page
+    }
+  },
+  computed: {
+    totalPage () {
+      return Math.ceil(this.articlesCount / this.limit)
+    }
+  }
 };
 </script>
 

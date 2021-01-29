@@ -98,7 +98,6 @@
               </button>
             </div>
             <nuxt-link
-              href
               class="preview-link"
               :to="{
               name: 'article',
