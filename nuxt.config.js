@@ -55,6 +55,11 @@ module.exports = {
             ])
         }
     },
+    // server
+    server: {
+        host: 'localhost',
+        port: 3000
+    },
     // 注册插件
     plugins: [
         '~/plugins/request.js',
