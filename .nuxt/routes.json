@@ -1,51 +1,51 @@
 [
   {
     "path": "/",
-    "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld-nuxtjs\\\\pages\\\\layout",
+    "component": "D:\\\\frontEndStudy\\\\part3_3\\\\realworld\\\\pages\\\\layout",
     "children": [
       {
         "path": "",
         "name": "home",
-        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld-nuxtjs\\\\pages\\\\home",
-        "_name": "_4fd290f4"
+        "component": "D:\\\\frontEndStudy\\\\part3_3\\\\realworld\\\\pages\\\\home",
+        "_name": "_83705bd0"
       },
       {
         "path": "/login",
         "name": "login",
-        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld-nuxtjs\\\\pages\\\\login",
-        "_name": "_aa905418"
+        "component": "D:\\\\frontEndStudy\\\\part3_3\\\\realworld\\\\pages\\\\login",
+        "_name": "_0aeab950"
       },
       {
         "path": "/register",
         "name": "register",
-        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld-nuxtjs\\\\pages\\\\login",
-        "_name": "_aa905418"
+        "component": "D:\\\\frontEndStudy\\\\part3_3\\\\realworld\\\\pages\\\\login",
+        "_name": "_0aeab950"
       },
       {
         "path": "/profile/:username",
         "name": "profile",
-        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld-nuxtjs\\\\pages\\\\profile",
-        "_name": "_957e0d18"
+        "component": "D:\\\\frontEndStudy\\\\part3_3\\\\realworld\\\\pages\\\\profile",
+        "_name": "_576f1460"
       },
       {
         "path": "/settings",
         "name": "settings",
-        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld-nuxtjs\\\\pages\\\\settings",
-        "_name": "_f7c37490"
+        "component": "D:\\\\frontEndStudy\\\\part3_3\\\\realworld\\\\pages\\\\settings",
+        "_name": "_460654dc"
       },
       {
         "path": "/editor",
         "name": "editor",
-        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld-nuxtjs\\\\pages\\\\editor",
-        "_name": "_c091e77c"
+        "component": "D:\\\\frontEndStudy\\\\part3_3\\\\realworld\\\\pages\\\\editor",
+        "_name": "_45e09466"
       },
       {
         "path": "/article/:slug",
         "name": "article",
-        "component": "D:\\\\fontend-study\\\\part3-3\\\\realworld-nuxtjs\\\\pages\\\\article",
-        "_name": "_c7e9867e"
+        "component": "D:\\\\frontEndStudy\\\\part3_3\\\\realworld\\\\pages\\\\article",
+        "_name": "_89da8dc6"
       }
     ],
-    "_name": "_a8f43402"
+    "_name": "_51af6e23"
   }
 ]

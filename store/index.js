@@ -7,12 +7,17 @@ export const state = () => {
         user: null
     }
 }
+export const getters = {
+    getUser(state) {
+        return state.user
+    }
+}
 export const mutations = {
-    setUser (state, data) {
+    setUser(state, data) {
         state.user = data
     },
     /**登出清空用户信息 */
-    clearUser (state) {
+    clearUser(state) {
         state.user = null
     }
 }
@@ -21,7 +26,7 @@ export const actions = {
     // 这个action 会在服务端渲染期间自动调用
     // 作用：初始化容器数据，传递数据给客户端使用
     /**commit 是提交mutation的对象  req是服务端请求对象 */
-    nuxtServerInit ({ commit }, { req }) {
+    nuxtServerInit({ commit }, { req }) {
         let user = null
         // 如果请求头部有Cookie, 将cookie字符串转换为Javascript对象
         if (req.headers.cookie) {
