@@ -54,20 +54,25 @@
   </div>
 </template>
 <script>
-import { createArticle } from '@/api/article'
+import { getArticle, createArticle } from '@/api/article'
 
 export default {
   // 在路由匹配组件渲染之前会先执行中间件处理
   middleware: 'authenticated',
   name: "Editor",
-  data () {
-    return {
+  async asyncData ({ params }) {
+    const { slug } = params
+    if (!slug) return {
       article: {
         title: '',
         description: '',
         body: '',
         tagList: ''
       }
+    }
+    const { data } = await getArticle(params.slug)
+    return {
+      article: data.article
     }
   },
   methods: {

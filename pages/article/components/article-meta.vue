@@ -19,11 +19,11 @@
             username: article.author.username,
           },
         }"
-        >{{ article.author.username }}</nuxt-link
-      >
+      >{{ article.author.username }}</nuxt-link>
       <span class="date">{{ article.createdAt | date("MMM DD, YYYY") }}</span>
     </div>
     <button
+      v-if="!isCurrentUser"
       class="btn btn-sm btn-outline-secondary"
       :class="{
         active: article.author.following,
@@ -31,10 +31,13 @@
     >
       <i class="ion-plus-round"></i>
       &nbsp; Follow {{ article.author.username }}
-      <span class="counter">{{ `(${article.author.following || 0})` }}</span>
+      <span
+        class="counter"
+      >{{ `(${article.author.following || 0})` }}</span>
     </button>
     <button
-      v-if="isCurrent"
+      v-else
+      @click="gotoEditor"
       class="btn btn-sm btn-outline-secondary"
       :class="{
         active: article.author.following,
@@ -45,6 +48,7 @@
     </button>
     &nbsp;
     <button
+      v-if="!isCurrentUser"
       class="btn btn-sm btn-outline-primary"
       :class="{
         active: article.author.favorited,
@@ -54,7 +58,7 @@
       &nbsp; Favorite Post
       <span class="counter">{{ `(${article.favoritesCount})` }}</span>
     </button>
-    <button v-if="isCurrent" class="btn btn-outline-danger btn-sm">
+    <button v-else @click="handleDeleteArtice" class="btn btn-outline-danger btn-sm">
       <i class="ion-trash-a"></i>
       Delete Article
     </button>
@@ -62,7 +66,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from "vuex"
+import { deleteArticle } from '@/api/article'
 
 export default {
   name: "ArticleMeta",
@@ -73,7 +78,7 @@ export default {
       require: true,
     },
   },
-  head() {
+  head () {
     return {
       title: `${this.article.title} - RealWorld`,
       meta: [
@@ -85,20 +90,37 @@ export default {
       ],
     };
   },
-  data() {
+  data () {
     return {};
   },
   computed: {
     ...mapGetters(["getUser"]),
-    isCurrent() {
-      console.log(this.getUser);
-      return true;
+    /**判断是否当前作者 */
+    isCurrentUser () {
+      return this.getUser.username === this.article.author.username
     },
   },
   watch: {},
-  methods: {},
-  created() {},
-  mounted() {},
+  methods: {
+    /**去编辑页 */
+    gotoEditor () {
+      this.$router.push({
+        name: 'editor',
+        params: {
+          slug: this.article.slug
+        }
+      })
+    },
+    /**删除文章 */
+    async handleDeleteArtice () {
+      const res = await deleteArticle(this.article.slug)
+      if (res) {
+
+      }
+    }
+  },
+  created () { },
+  mounted () { },
 };
 </script>
 <style>
