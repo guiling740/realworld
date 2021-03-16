@@ -11,13 +11,13 @@ export const getProfile = username => {
 export const followUser = username => {
     return request({
         method: 'POST',
-        url: `/api/profiles/:${username}/follow`,
+        url: `/api/profiles/${username}/follow`,
     })
 }
 // 关注作者
 export const unFollowUser = username => {
     return request({
         method: 'DELETE',
-        url: `/api/profiles/:${username}/follow`,
+        url: `/api/profiles/${username}/follow`,
     })
 }

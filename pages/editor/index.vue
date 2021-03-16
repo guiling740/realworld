@@ -45,7 +45,9 @@
                 class="btn btn-lg pull-xs-right btn-primary"
                 type="button"
                 @click="onSubmit"
-              >Publish Article</button>
+              >
+                Publish Article
+              </button>
             </fieldset>
           </form>
         </div>
@@ -54,45 +56,52 @@
   </div>
 </template>
 <script>
-import { getArticle, createArticle } from '@/api/article'
+import { getArticle, createArticle, updateArticle } from "@/api/article";
 
 export default {
   // 在路由匹配组件渲染之前会先执行中间件处理
-  middleware: 'authenticated',
+  middleware: "authenticated",
   name: "Editor",
-  async asyncData ({ params }) {
-    const { slug } = params
-    if (!slug) return {
-      article: {
-        title: '',
-        description: '',
-        body: '',
-        tagList: ''
-      }
-    }
-    const { data } = await getArticle(params.slug)
+  async asyncData({ params }) {
+    const { slug } = params;
+    if (!slug)
+      return {
+        article: {
+          title: "",
+          description: "",
+          body: "",
+          tagList: "",
+        },
+      };
+    const { data } = await getArticle(params.slug);
     return {
-      article: data.article
-    }
+      slug: params.slug,
+      article: data.article,
+    };
   },
   methods: {
-    async onSubmit () {
-      const params = { ...this.article }
-      Object.assign(params, {
-        tagList: this.article.tagList.split(',')
-      })
-      const { data: { article } } = await createArticle(params)
-      const { slug } = article
+    async onSubmit() {
+      const params = { ...this.article };
+      if (this.article && this.article.tagList) {
+        Object.assign(params, {
+          tagList: this.article.tagList.split(",") || "",
+        });
+      }
+      const fun = this.slug ? updateArticle : createArticle;
+      const {
+        data: { article },
+      } = await fun(params, this.slug);
+      const { slug } = article;
       if (slug) {
         this.$router.push({
-          name: 'article',
+          name: "article",
           params: {
-            slug: slug
-          }
-        })
+            slug: slug,
+          },
+        });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

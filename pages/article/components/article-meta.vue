@@ -19,10 +19,12 @@
             username: article.author.username,
           },
         }"
-      >{{ article.author.username }}</nuxt-link>
+        >{{ article.author.username }}</nuxt-link
+      >
       <span class="date">{{ article.createdAt | date("MMM DD, YYYY") }}</span>
     </div>
     <button
+      @click="handleFollowUser"
       v-if="!isCurrentUser"
       class="btn btn-sm btn-outline-secondary"
       :class="{
@@ -30,10 +32,8 @@
       }"
     >
       <i class="ion-plus-round"></i>
-      &nbsp; Follow {{ article.author.username }}
-      <span
-        class="counter"
-      >{{ `(${article.author.following || 0})` }}</span>
+      &nbsp; {{ this.follow ? "Follow" : "Unfollow" }}
+      {{ article.author.username }}
     </button>
     <button
       v-else
@@ -48,6 +48,7 @@
     </button>
     &nbsp;
     <button
+      @click="onFavorite"
       v-if="!isCurrentUser"
       class="btn btn-sm btn-outline-primary"
       :class="{
@@ -55,10 +56,15 @@
       }"
     >
       <i class="ion-heart"></i>
-      &nbsp; Favorite Post
-      <span class="counter">{{ `(${article.favoritesCount})` }}</span>
+      &nbsp;
+      {{ this.favorited ? `Unfavorite Article ` : `Favorite Article ` }}
+      <span class="counter">{{ `(${favoritesCount})` }}</span>
     </button>
-    <button v-else @click="handleDeleteArtice" class="btn btn-outline-danger btn-sm">
+    <button
+      v-else
+      @click="handleDeleteArtice"
+      class="btn btn-outline-danger btn-sm"
+    >
       <i class="ion-trash-a"></i>
       Delete Article
     </button>
@@ -66,8 +72,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import { deleteArticle } from '@/api/article'
+import { mapGetters } from "vuex";
+import { deleteArticle, addFavorite, deleteFavorite } from "@/api/article";
+import { followUser, unFollowUser } from "@/api/profile";
 
 export default {
   name: "ArticleMeta",
@@ -78,7 +85,7 @@ export default {
       require: true,
     },
   },
-  head () {
+  head() {
     return {
       title: `${this.article.title} - RealWorld`,
       meta: [
@@ -90,37 +97,59 @@ export default {
       ],
     };
   },
-  data () {
-    return {};
+  data() {
+    return {
+      follow: false,
+      favoritesCount: 0,
+      favorited: false,
+    };
   },
   computed: {
     ...mapGetters(["getUser"]),
     /**判断是否当前作者 */
-    isCurrentUser () {
-      return this.getUser.username === this.article.author.username
+    isCurrentUser() {
+      return this.getUser.username === this.article.author.username;
     },
   },
   watch: {},
   methods: {
     /**去编辑页 */
-    gotoEditor () {
+    gotoEditor() {
       this.$router.push({
-        name: 'editor',
+        name: "editor",
         params: {
-          slug: this.article.slug
-        }
-      })
+          slug: this.article.slug,
+        },
+      });
     },
     /**删除文章 */
-    async handleDeleteArtice () {
-      const res = await deleteArticle(this.article.slug)
+    async handleDeleteArtice() {
+      const res = await deleteArticle(this.article.slug);
       if (res) {
-
+        this.$router.push({
+          name: "home",
+        });
       }
-    }
+    },
+    /**关注 | 取消关注 */
+    async handleFollowUser() {
+      const fun = this.follow ? unFollowUser : followUser;
+      const res = await fun(this.article.author.username);
+      if (!res || !res.data) return;
+      const { profile } = res.data;
+      this.follow = profile.following;
+    },
+    async onFavorite() {
+      const fun = this.favoritesCount === 0 ? addFavorite : deleteFavorite;
+      const res = await fun(this.article.slug);
+      if (!res || !res.data) return;
+      const { article } = res.data;
+      this.favoritesCount = article.favoritesCount;
+      this.favorited = article.favorited;
+    },
   },
-  created () { },
-  mounted () { },
+  created() {},
+  mounted() {},
 };
 </script>
 <style>
